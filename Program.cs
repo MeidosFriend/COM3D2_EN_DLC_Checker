@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using Microsoft.Win32;
 
-namespace COM3D2_DLC_Checker
+namespace COM3D2_EN_DLC_Checker
 {
 
     class Program
@@ -14,7 +14,7 @@ namespace COM3D2_DLC_Checker
 
         // Variabels
         static readonly string DLC_URL = "https://raw.githubusercontent.com/Tankerch/COM3D2_DLC_Checker/master/COM_NewListDLC.lst";
-        static readonly string DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), "COM_NewListDLC.lst");
+        static readonly string DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), "COM_NewListDLC_EN.lst");
 
         static void Main(string[] args)
         {
@@ -27,8 +27,8 @@ namespace COM3D2_DLC_Checker
 
             if (HTTP_RESPOND.Item1 == HttpStatusCode.OK)
             {
-                Console.WriteLine("Connected to {0}", DLC_URL);
-                UPDATE_DLC_LIST(HTTP_RESPOND.Item2);
+                //Console.WriteLine("Connected to {0}", DLC_URL);
+                //UPDATE_DLC_LIST(HTTP_RESPOND.Item2);
             }
             else
             {
@@ -52,7 +52,7 @@ namespace COM3D2_DLC_Checker
         static void PRINT_HEADER()
         {
             CONSOLE_COLOR(ConsoleColor.Cyan, "===========================================================================================");
-            CONSOLE_COLOR(ConsoleColor.Cyan, "COM_DLC_Checker     |   Github.com/Tankerch/COM3D2_DLC_Checker");
+            CONSOLE_COLOR(ConsoleColor.Cyan, "=          COM3D2_EN_DLC_Checker   |   Modded Github.com/Tankerch/COM3D2_DLC_Checker      =");
             CONSOLE_COLOR(ConsoleColor.Cyan, "===========================================================================================");
         }
 
@@ -64,7 +64,7 @@ namespace COM3D2_DLC_Checker
 
             try
             {
-                using HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using HttpWebResponse response = (HttpWebResponse)request.GetResponse() ;
                 using Stream stream = response.GetResponseStream();
                 using StreamReader reader = new StreamReader(stream);
 
@@ -96,7 +96,7 @@ namespace COM3D2_DLC_Checker
             }
             catch(FileNotFoundException)
             {
-                CONSOLE_COLOR(ConsoleColor.Red, "COM_NewListDLC.lst file doesn't exist, Connect to the internet to download it automatically");
+                CONSOLE_COLOR(ConsoleColor.Red, "COM_NewListDLC_EN.lst file doesn't exist");
                 EXIT_PROGRAM();
             }
 
@@ -117,7 +117,7 @@ namespace COM3D2_DLC_Checker
         {
             // Default: Current Directory of COM3D2_DLC_Checker
             // Will replaced by COM3D2 InstallPath Registry
-            const string keyName = "HKEY_CURRENT_USER" + "\\" + "SOFTWARE\\KISS\\カスタムオーダーメイド3D2";
+            const string keyName = "HKEY_CURRENT_USER" + "\\" + "SOFTWARE\\KISS\\CUSTOM ORDER MAID3D 2";
 
             string GAME_DIRECTORY_REGISTRY = (string)Registry.GetValue(keyName,"InstallPath","");
 
