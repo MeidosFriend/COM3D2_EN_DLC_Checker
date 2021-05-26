@@ -6,9 +6,4 @@ Apps that checking which one DLC have been installed and not. Always up-to-date 
 ## How to Use
 
 1.  Download the latest release
-2.  Run "COM3D2_DLC_Cheker.exe"
-
-## 如何使用
-
-1.  release里下载最新版本
-2.  运行 COM3D2_DLC_Checker.exe
+2.  Run "COM3D2_EN_DLC_Cheker.exe"
