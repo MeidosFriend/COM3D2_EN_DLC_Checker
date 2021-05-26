@@ -13,8 +13,8 @@ namespace COM3D2_EN_DLC_Checker
     {
 
         // Variabels
-        static readonly string DLC_URL = "https://raw.githubusercontent.com/Tankerch/COM3D2_DLC_Checker/master/COM_NewListDLC.lst";
-        static readonly string DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), "COM_NewListDLC_EN.lst");
+        static readonly string DLC_URL = "https://raw.githubusercontent.com/MeidosFriend/COM3D2_EN_DLC_Checker/master/COM_EN_NewListDLC.lst";
+        static readonly string DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), "COM_EN_NewListDLC.lst");
 
         static void Main(string[] args)
         {
@@ -27,8 +27,8 @@ namespace COM3D2_EN_DLC_Checker
 
             if (HTTP_RESPOND.Item1 == HttpStatusCode.OK)
             {
-                //Console.WriteLine("Connected to {0}", DLC_URL);
-                //UPDATE_DLC_LIST(HTTP_RESPOND.Item2);
+                Console.WriteLine("Connected to {0}", DLC_URL);
+                UPDATE_DLC_LIST(HTTP_RESPOND.Item2);
             }
             else
             {
@@ -51,9 +51,9 @@ namespace COM3D2_EN_DLC_Checker
 
         static void PRINT_HEADER()
         {
-            CONSOLE_COLOR(ConsoleColor.Cyan, "===========================================================================================");
-            CONSOLE_COLOR(ConsoleColor.Cyan, "=          COM3D2_EN_DLC_Checker   |   Modded Github.com/Tankerch/COM3D2_DLC_Checker      =");
-            CONSOLE_COLOR(ConsoleColor.Cyan, "===========================================================================================");
+            CONSOLE_COLOR(ConsoleColor.Green, "===========================================================================================");
+            CONSOLE_COLOR(ConsoleColor.Green, "         COM3D2_EN_DLC_Checker   |   Github.com/MeidosFriend/COM3D2_EN_DLC_Checker");
+            CONSOLE_COLOR(ConsoleColor.Green, "===========================================================================================");
         }
 
         static Tuple<HttpStatusCode, string> CONNECT_TO_INTERNET(string DLC_URL)

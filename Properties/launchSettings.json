@@ -1,7 +1,7 @@
 {
   "profiles": {
-    "COM3D2_DLC_Checker": {
-      "commandName": "Project"
+    "COM3D2_EN": {
+      "commandName": "Executable"
     }
   }
 }

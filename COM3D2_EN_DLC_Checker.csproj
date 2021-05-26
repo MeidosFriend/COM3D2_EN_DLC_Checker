@@ -11,7 +11,7 @@
     <StartupObject></StartupObject>
     <AssemblyName>COM3D2_EN_DLC_Checker</AssemblyName>
     <RootNamespace>COM3D2_EN_DLC_Checker</RootNamespace>
-    <Description>Developed on Tankerch's Release</Description>
+    <Description>Developed on Base of Tankerch's Release</Description>
   </PropertyGroup>
 
   <ItemGroup>
