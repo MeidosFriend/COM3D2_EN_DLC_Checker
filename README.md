@@ -1,4 +1,4 @@
-# COM3D2 DLC Checker
+# COM3D2 English DLC Checker
 
 ![](Demo.jpg)
 Apps that checking which one DLC have been installed and not. Always up-to-date if you have an internet connection and I'm still managing the repo.
