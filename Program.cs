@@ -175,13 +175,13 @@ namespace COM3D2_EN_DLC_Checker
 
         static void PRINT_DLC(List<string> INSTALLED_DLC, List<string> NOT_INSTALLED_DLC)
         {
-            CONSOLE_COLOR(ConsoleColor.Cyan, "\nAlready Installed:");
+            CONSOLE_COLOR(ConsoleColor.Green, "\nAlready Installed:");
             foreach (string DLC in INSTALLED_DLC)
             {
                 Console.WriteLine(DLC);
             }
 
-            CONSOLE_COLOR(ConsoleColor.Cyan, "\nNot Installed :");
+            CONSOLE_COLOR(ConsoleColor.Yellow, "\nNot Installed :");
             foreach (string DLC in NOT_INSTALLED_DLC)
             {
                 Console.WriteLine(DLC);
