@@ -1,7 +1,8 @@
 {
   "profiles": {
     "COM3D2_EN": {
-      "commandName": "Executable"
+      "commandName": "Executable",
+      "executablePath": "L:\\GitHub_Repository\\COM3D2_EN_DLC_Checker\\bin\\Debug\\netcoreapp3.1\\COM3D2_EN_DLC_Checker.exe"
     }
   }
 }
