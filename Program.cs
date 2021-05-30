@@ -8,10 +8,10 @@ using Microsoft.Win32;
 
 namespace COM3D2_EN_DLC_Checker
 {
-
+    
     class Program
     {
-
+        
         // Variables
         static readonly string GAME_NAME = "COM3D2_EN";
         static readonly string INI_FILE = GAME_NAME + "_DLC_Checker.ini";
