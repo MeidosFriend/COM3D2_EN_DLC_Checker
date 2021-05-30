@@ -1,11 +1,11 @@
 # COM3D2 English DLC Checker V.1.1
 
 ![](Screen_1.jpg)
-App that checking which one DLC have been installed and not. Always up-to-date if you have an internet connection and I'm still managing the repo.
-standard screen
+App that checking which one DLC have been installed and not.
+Always up-to-date if you have an internet connection and I'm still managing the repo.
 
 ![](Screen_2.jpg)
-listfile update disabled
+Listfile update disabled
 
 ![](Screen_3.jpg)
 This screen reflects the choice of a custom listfile
