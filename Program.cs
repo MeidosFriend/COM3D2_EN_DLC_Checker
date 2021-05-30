@@ -219,13 +219,14 @@ namespace COM3D2_EN_DLC_Checker
                 }
                 else
                 {
-                    CONSOLE_COLOR(ConsoleColor.Yellow, GAME_NAME + " installation path not set in registry. Using working directory: " + Directory.GetCurrentDirectory());
+                    CONSOLE_COLOR(ConsoleColor.Yellow, GAME_NAME + " installation path not set in registry.");
+                    CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
                     return Directory.GetCurrentDirectory();
                 }
             }
             else
             {
-                CONSOLE_COLOR(ConsoleColor.Yellow, GAME_NAME + " installation directory set to current directory: " + Directory.GetCurrentDirectory());
+                CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
                 return Directory.GetCurrentDirectory();
             }
         }
@@ -243,7 +244,9 @@ namespace COM3D2_EN_DLC_Checker
             }
             catch (DirectoryNotFoundException)
             {
-                CONSOLE_COLOR(ConsoleColor.Red, "GameData Directory doesn't exist, invalid Configuration Parameter in " + INI_FILE + " or Game not installed. Exit Program. ");
+                CONSOLE_COLOR(ConsoleColor.Red, "GameData Directory doesn't exist, ");
+                CONSOLE_COLOR(ConsoleColor.Red, "invalid Configuration Parameter in " + INI_FILE);
+                CONSOLE_COLOR(ConsoleColor.Red, "Exit Program. ");
                 EXIT_PROGRAM();
             }
 
