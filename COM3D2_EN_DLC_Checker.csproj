@@ -12,8 +12,13 @@
     <AssemblyName>COM3D2_EN_DLC_Checker</AssemblyName>
     <RootNamespace>COM3D2_EN_DLC_Checker</RootNamespace>
     <Description>Developed on Base of Tankerch's Release</Description>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IniFile_old.cs" />
+    <Compile Remove="Program_old.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />

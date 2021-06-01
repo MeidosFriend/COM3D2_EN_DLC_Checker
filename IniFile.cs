@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 // Change this to match your program's normal namespace
-namespace COM3D2_EN_DLC_Checker
+namespace DLC_Checker
 {
     class IniFile   // revision 11
     {
