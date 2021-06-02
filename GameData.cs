@@ -5,11 +5,12 @@ namespace DLC_Checker
 {
 	public class GameData
 	{
+        static readonly System.Version VERSION = typeof(Program).Assembly.GetName().Version;
         public static readonly string GAME_NAME = "COM3D2_EN";
         public static readonly string INI_FILE = GAME_NAME + "_DLC_Checker.ini";
         public static readonly string DLC_LIST_FILE = "COM_EN_NewListDLC.lst";
         public static readonly string MY_DLC_LIST_FILE = "MY_" + DLC_LIST_FILE;
-        public static readonly string GAME_HEADER = "         " + GAME_NAME + "_Checker   |   Github.com/MeidosFriend/" + GAME_NAME + "_Checker";
+        public static readonly string GAME_HEADER = "         " + GAME_NAME + "_Checker Version " + VERSION + "     |   Github.com/MeidosFriend/" + GAME_NAME + "_Checker";
         public static readonly string GAME_REGISTRY = "HKEY_CURRENT_USER\\SOFTWARE\\KISS\\" + "CUSTOM ORDER MAID3D 2";
         
         public static string DLC_URL = "https://raw.githubusercontent.com/MeidosFriend/" + GAME_NAME + "_DLC_Checker/master/" + DLC_LIST_FILE;

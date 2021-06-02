@@ -1,4 +1,5 @@
 ﻿using System;
+//using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace DLC_Checker
 
         static readonly string GAME_NAME = MyData.GetGAME_NAME();
         static readonly string GAME_REGISTRY = MyData.GetGAME_REGISTRY();
-        static readonly string INI_FILE = MyData.GetINI_FILE();
+        //static readonly string INI_FILE = MyData.GetINI_FILE();
         static readonly string DLC_LIST_FILE = MyData.GetDLC_LIST_FILE();
         static readonly string MY_DLC_LIST_FILE = MyData.GetMY_DLC_LIST_FILE();
         static readonly string DLC_LIST_PATH = MyData.GetDLC_LIST_PATH();
@@ -33,12 +34,35 @@ namespace DLC_Checker
             // Write Header Lines to Console
             PRINT_HEADER();
 
-            // Custom Listfile
+            //Console.WriteLine(VERSION);
+
+            // update/get DLC Listfile 
+            GET_DLC_LISTFILE();
+            
+            // DLC LIST = [DLC_FILENAME, DLC_NAME]
+            IDictionary<string, string> DLC_LIST = READ_DLC_LIST();
+            List<string> GAMEDATA_LIST = READ_GAMEDATA();
+
+            // DLC LIST SORTED
+            // Item 1 = INSTALLED_DLC
+            // Item 2 = NOT_INSTALLED_DLC
+            Tuple<List<string>, List<string>> DLC_LIST_SORTED = COMPARE_DLC(DLC_LIST, GAMEDATA_LIST);
+
+            PRINT_DLC(DLC_LIST_SORTED.Item1, DLC_LIST_SORTED.Item2);
+
+            EXIT_PROGRAM();
+		}
+		// End Main
+	
+		// Get DLC List File
+		static void GET_DLC_LISTFILE()
+		{
+			// Custom Listfile
             if (MyDLCListFile == "Yes")
             {
                 //DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), MyGameData.GetMY_DLC_LIST_FILE);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Using Custom Listfile {0}", MyData.GetMY_DLC_LIST_FILE());
+                Console.WriteLine("Using Custom Listfile {0}", MY_DLC_LIST_FILE);
             }
             // Standard Listfile
             else
@@ -56,6 +80,7 @@ namespace DLC_Checker
                         if (UseMyURL == "No")
                         {
                             Console.ForegroundColor = ConsoleColor.Cyan;
+							Console.WriteLine("Using Standard URL");
                         }
                         else
                         {
@@ -63,7 +88,6 @@ namespace DLC_Checker
                             Console.WriteLine("Using Custom URL");
                         }
                         Console.WriteLine("Connected to {0}", DLC_URL);
-
                         //Console.WriteLine("Hint: You can preserve your current {0} by disable autoupdate in {1} with: UpdateListFile=No", DLC_LIST_FILE, INI_FILE);
                         UPDATE_DLC_LIST(HTTP_RESPOND.Item2);
                     }
@@ -84,22 +108,8 @@ namespace DLC_Checker
                 }
                 Console.ResetColor();
             }
-
-            // DLC LIST = [DLC_FILENAME, DLC_NAME]
-            IDictionary<string, string> DLC_LIST = READ_DLC_LIST();
-            List<string> GAMEDATA_LIST = READ_GAMEDATA();
-
-            // DLC LIST SORTED
-            // Item 1 = INSTALLED_DLC
-            // Item 2 = NOT_INSTALLED_DLC
-            Tuple<List<string>, List<string>> DLC_LIST_SORTED = COMPARE_DLC(DLC_LIST, GAMEDATA_LIST);
-
-            PRINT_DLC(DLC_LIST_SORTED.Item1, DLC_LIST_SORTED.Item2);
-
-            EXIT_PROGRAM();
+			
 		}
-		// End Main
-	
 		// PRINT_HEADER
 		static void PRINT_HEADER()
         {
@@ -198,19 +208,26 @@ namespace DLC_Checker
             {
                 if (GAME_DIRECTORY_REGISTRY != null)
                 {
-                    CONSOLE_COLOR(ConsoleColor.Cyan, "Game Dir: " + GAME_DIRECTORY_REGISTRY);
+                    if (!Directory.Exists(GAME_DIRECTORY_REGISTRY))
+            		{
+                		CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory set in registry but doesn't exist. Will using work directory");
+                		CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
+                    	return Directory.GetCurrentDirectory();
+            		}
+                    CONSOLE_COLOR(ConsoleColor.Cyan, GAME_NAME + " installation directory found in registry:");
+                    CONSOLE_COLOR(ConsoleColor.Cyan, GAME_DIRECTORY_REGISTRY);
                     return GAME_DIRECTORY_REGISTRY;
                 }
                 else
                 {
-                    CONSOLE_COLOR(ConsoleColor.Yellow, GAME_NAME + " installation path not set in registry.");
-                    CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
+                    CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory not found in registry. Will using work directory");
+					CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
                     return Directory.GetCurrentDirectory();
                 }
             }
             else
             {
-                CONSOLE_COLOR(ConsoleColor.Yellow, "Current working directory: " + Directory.GetCurrentDirectory());
+                CONSOLE_COLOR(ConsoleColor.Yellow, "Set up to use current work directory: " + Directory.GetCurrentDirectory());
                 return Directory.GetCurrentDirectory();
             }
         }
