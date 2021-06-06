@@ -28,7 +28,7 @@ namespace DLC_Checker
         static readonly string UseCurrentDir = MyData.GetUseCurrentDir().ToUpper();
         static readonly string UpdateListFile = MyData.GetUpdateListFile().ToUpper();
         static readonly string MyDLCListFile = MyData.GetMyDLCListFile().ToUpper();
-        static readonly string UseMyURL = MyData.GetUseMyURL();
+        static readonly string UseMyURL = MyData.GetUseMyURL().ToUpper();
 
         static void Main(string[] args)
         {
@@ -77,7 +77,7 @@ namespace DLC_Checker
                 {
                     if (line.Contains(text))
                     {
-                        CONSOLE_COLOR(ConsoleColor.Green, line);
+                        CONSOLE_COLOR(ConsoleColor.Cyan, line);
                         break;
                     }
                 }
@@ -102,7 +102,7 @@ namespace DLC_Checker
             {
                 //DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), MyGameData.GetMY_DLC_LIST_FILE);
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Custom Listfile {0}", MY_DLC_LIST_FILE);
+                Console.WriteLine("Custom Listfile: {0}", MY_DLC_LIST_FILE);
             }
             // Standard Listfile
             else
@@ -120,12 +120,12 @@ namespace DLC_Checker
                         if (UseMyURL == "NO")
                         {
                             Console.ForegroundColor = ConsoleColor.Cyan;
-                            Console.WriteLine("Connected to : {0}", DLC_URL);
+                            Console.WriteLine("Connected to: {0}", DLC_URL);
                         }
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Custom URL : {0}", DLC_URL);
+                            Console.WriteLine("Custom URL: {0}", DLC_URL);
                         }
                         //Console.WriteLine("Connected to {0}", DLC_URL);
                         //Console.WriteLine("Hint: You can preserve your current {0} by disable autoupdate in {1} with: UpdateListFile=NO", DLC_LIST_FILE, INI_FILE);
@@ -155,9 +155,9 @@ namespace DLC_Checker
 		static void PRINT_HEADER()
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("=======================================================================================================================");
             Console.WriteLine(GAME_HEADER);
-            Console.WriteLine("=====================================================================================================");
+            Console.WriteLine("=======================================================================================================================");
             Console.ResetColor();
         }
 
@@ -220,13 +220,18 @@ namespace DLC_Checker
             string sub;
             foreach (string DLC_LIST in DLC_LIST_UNFORMATED)
             {
+                // eliminating whitespaces
                 DLC_LIST.Trim();
+                //ignoring empty line
                 if (DLC_LIST != "")
-                {     
+                {   
+                    // ignoring line if first char is '/' or '*' or ';'
                     sub = DLC_LIST.Substring(0, 1);
                     if (sub!="/" && sub != "*" && sub != ";")
                     { 
+                        //split string
                         string[] temp_strlist = DLC_LIST.Split(',');
+                        // if line has more than 2 substrings (description contains ','), concatenate the right part
                         if (temp_strlist.Length > 2)
                         {
                             for (int i = 2; i < temp_strlist.Length; i++)
