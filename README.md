@@ -1,4 +1,4 @@
-# COM3D2 English DLC Checker V.1.1
+# COM3D2 English DLC Checker V1.3
 
 ![](Screen_1.jpg)
 App that checking which one DLC have been installed and not.
@@ -40,6 +40,10 @@ UseCurrentDir=No
 UpdateListFile=Yes
 MyDLCListFile=No
 
+[CustomURL]
+MyURL=https://my.url
+UseMyURL=No
+
 ---------
 UseCurrentDir
 - If set to "No" The game directory is read from the registry (only valid when game is installed) (Default)
@@ -53,5 +57,8 @@ MyDLCListFile
 - If set to "No", the standard listfile is used (Default)
 - If set to "Yes", you can build a listfile from scratch, using another name. This means you can switch between 2 configurations
 ----------
+
+Custom URl
+Here you can set an url to a valid listfile - should I retire some day :-)
 
 Hint: If you screwed up your listfile or ini file, simply delete them... 

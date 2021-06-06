@@ -23,12 +23,13 @@ namespace DLC_Checker
         static readonly string DLC_LIST_PATH = MyData.GetDLC_LIST_PATH();
         static readonly string GAME_HEADER = MyData.GetGAME_HEADER();
         static readonly string DLC_URL = MyData.GetDLC_URL();
-        static readonly string GAME_DIRECTORY = GET_GAME_INSTALLPATH();
-
+        
         static readonly string UseCurrentDir = MyData.GetUseCurrentDir().ToUpper();
         static readonly string UpdateListFile = MyData.GetUpdateListFile().ToUpper();
         static readonly string MyDLCListFile = MyData.GetMyDLCListFile().ToUpper();
         static readonly string UseMyURL = MyData.GetUseMyURL().ToUpper();
+
+        static readonly string GAME_DIRECTORY = GET_GAME_INSTALLPATH();
 
         static void Main(string[] args)
         {
