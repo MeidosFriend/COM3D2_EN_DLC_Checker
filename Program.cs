@@ -313,7 +313,7 @@ namespace DLC_Checker
                 EXIT_PROGRAM();
             }
 
-            if (GAME_NAME == "COM3D2" || GAME_NAME == "COM3D2_EN")
+            if (GAME_NAME.Contains("COM3D2"))
             {
                 string GAMEDATA_20_DIRECTORY = GAME_DIRECTORY + "\\GameData_20";
             
