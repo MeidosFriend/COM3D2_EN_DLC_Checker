@@ -56,12 +56,12 @@ namespace DLC_Checker
             }
             UseMyURL = MyIni.Read("UseMyURL", "CustomURL").ToUpper();
 
-            if (MyDLCListFile == "Yes")
+            if (MyDLCListFile == "YES")
             {
                 DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), MY_DLC_LIST_FILE);
             }
 
-            if (UseMyURL == "Yes")
+            if (UseMyURL == "YES")
             {
                 DLC_URL = MyURL;
             }
