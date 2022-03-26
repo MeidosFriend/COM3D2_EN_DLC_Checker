@@ -1,4 +1,4 @@
-20220305
+20220326
 parts_shop022.arc,[COM3D2EN MISC][Nuntaku Bonus][Costume][Nuntaku-Tan Set]
 csv_nmfeng.arc,[COM3D2EN S-Court][Dance - Night Magic Fire - Included in Base Game]
 csv_vp001.arc,[COM3D2EN S-Court][Visual Pack]
@@ -672,3 +672,11 @@ parts_cas088.arc,[COM3D2EN Shop][Romantic & Pretty Hair Costume Set][Costume][Ch
 parts_cas089.arc,[COM3D2EN Shop][Romantic & Pretty Hair Costume Set][Hair][Loose Semi-Long Set]
 parts_cas090.arc,[COM3D2EN Shop][Romantic & Pretty Hair Costume Set][Hair][Airy Mushroom Set]
 parts_cas091.arc,[COM3D2EN Shop][Romantic & Pretty Hair Costume Set][Hair][Girlish Wave Set]
+parts_dlc438.arc,[COM3D2EN Shop][Love Hotel Expansion Pack][Winter Sweater & Dress Set]
+script_franchise001.arc,[COM3D2EN Shop][Love Hotel Expansion Pack][Love Hotel Yotogi]
+script_personal_om006plus.arc,[COM3D2EN Shop][Additional H-Event & Yotogi Pack][Blunt Girl]
+parts_dlc444.arc,[COM3D2EN Shop][Collab][GIGA][Aikiss 3][Costume Set][Karin Bangs]
+parts_dlc445.arc,[COM3D2EN Shop][Collab][GIGA][Aikiss 3][Costume Set][Karin School Uniform Set]
+parts_dlc446.arc,[COM3D2EN Shop][Collab][GIGA][Aikiss 3][Costume Set][Avrola Bangs]
+parts_dlc447.arc,[COM3D2EN Shop][Collab][GIGA][Aikiss 3][Costume Set][Avrola School Uniform Set]
+motion_dance_aikiss3.arc,[COM3D2EN Shop][Collab][GIGA][Aikiss 3][Dance][Blooming Kiss!]
