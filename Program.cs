@@ -14,16 +14,15 @@ namespace DLC_Checker
 
         // Class Gamedata init, sets the Values for the used Game
         static GameData MyData = new GameData();
-        
         static readonly string GAME_NAME = MyData.GetGAME_NAME();
+        static readonly string GAME_NAME_LONG = MyData.GetGAME_NAME_LONG();
         static readonly string GAME_REGISTRY = MyData.GetGAME_REGISTRY();
-        //static readonly string INI_FILE = MyData.GetINI_FILE();
         static readonly string DLC_LIST_FILE = MyData.GetDLC_LIST_FILE();
         static readonly string MY_DLC_LIST_FILE = MyData.GetMY_DLC_LIST_FILE();
         static readonly string DLC_LIST_PATH = MyData.GetDLC_LIST_PATH();
         static readonly string GAME_HEADER = MyData.GetGAME_HEADER();
         static readonly string DLC_URL = MyData.GetDLC_URL();
-        
+
         static readonly string UseCurrentDir = MyData.GetUseCurrentDir().ToUpper();
         static readonly string UpdateListFile = MyData.GetUpdateListFile().ToUpper();
         static readonly string MyDLCListFile = MyData.GetMyDLCListFile().ToUpper();
@@ -60,37 +59,58 @@ namespace DLC_Checker
         static void GetGameVersion()
         {
             string line;
-            string text = "GameVersion";
-            string logfile;
-            if (GAME_NAME == "CM3D2")
-            {
-                logfile = "\\CM3D2x64_Data\\output_log.txt";
-            }
-            else
-            {
-                logfile = "\\COM3D2x64_Data\\output_log.txt";
-            }
+            //string text = "GameVersion";
+            string text2 = "EditSystem.exe";
+            string text3 = "COM3D2x64.exe";
+            string text4 = "CM3D2x64.exe";
+            string logfile = "\\update.lst";
+        
             try
             {
                 StreamReader file = new StreamReader(GAME_DIRECTORY + logfile);
-
                 while ((line = file.ReadLine()) != null)
                 {
-                    if (line.Contains(text))
+                    if (line.Contains(text2))
                     {
-                        CONSOLE_COLOR(ConsoleColor.Cyan, line);
-                        break;
+                        //split string
+                        string[] temp_line = line.Split(',');
+                        char[] linec = temp_line[1].ToCharArray();
+                        string Version = linec[0].ToString();
+                        if (linec[1] == '0')
+                            Version = Version + "." + linec[2].ToString() + ".";
+                        else
+                            Version = Version + "." + linec[1].ToString() + linec[2].ToString() + ".";
+                            if (linec[3] == '0')
+                                Version = Version + linec[4].ToString();
+                            else
+                                Version = Version + linec[3].ToString() + linec[4].ToString();
+
+                            CONSOLE_COLOR(ConsoleColor.Cyan, "CR Edit Version V" + Version);
+                            break;
+                    }
+                    else
+                    {
+                        if (line.Contains(text3) || line.Contains(text4))
+                        {
+                            //split string
+                            string[] temp_line = line.Split(',');
+                            char[] linec = temp_line[1].ToCharArray();
+                            string Version = linec[0].ToString();
+                            Version = Version + "." + linec[1].ToString() + linec[2].ToString() + linec[3].ToString();
+                            CONSOLE_COLOR(ConsoleColor.Cyan, GAME_NAME_LONG + " Version V" + Version);
+                            break;
+                        }
                     }
                 }
                 file.Close();
             }
             catch (FileNotFoundException)
             {
-                CONSOLE_COLOR(ConsoleColor.Red, "No Game Version Information available");
+                CONSOLE_COLOR(ConsoleColor.Yellow, "No Game Version Information available");
             }
             catch (DirectoryNotFoundException)
             {
-                CONSOLE_COLOR(ConsoleColor.Red, "No Game Version Information available");
+                CONSOLE_COLOR(ConsoleColor.Yellow, "No Game Version Information available");
             }
         }
 
@@ -101,7 +121,6 @@ namespace DLC_Checker
 			// Custom Listfile
             if (MyDLCListFile == "YES")
             {
-                //DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), MyGameData.GetMY_DLC_LIST_FILE);
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Custom Listfile: {0}", MY_DLC_LIST_FILE);
             }
@@ -149,7 +168,6 @@ namespace DLC_Checker
                 }
                 Console.ResetColor();
             }
-			
 		}
 
 		// PRINT_HEADER
@@ -271,32 +289,26 @@ namespace DLC_Checker
                     {
                         CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory set in registry but doesn't exist. Will using work directory");
                         CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-                        //return Directory.GetCurrentDirectory();
                     }
                     else
                     {
-                        //CONSOLE_COLOR(ConsoleColor.Cyan, GAME_NAME + " installation directory found in registry:");
                         CONSOLE_COLOR(ConsoleColor.Cyan, "Game Directory: " + GAME_DIRECTORY_REGISTRY);
-                        //return GAME_DIRECTORY_REGISTRY;
                     }
                 }
                 else
                 {
                     CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory not found in registry. Will using work directory");
 					CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-                    //return Directory.GetCurrentDirectory();
                 }
             }
             else
             {
                 CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-                //return Directory.GetCurrentDirectory();
             }
         }
 
         static List<string> READ_GAMEDATA()
         {
-            //GAME_DIRECTORY = GET_GAME_INSTALLPATH();
             string GAMEDATA_DIRECTORY = GAME_DIRECTORY + "\\GameData";
 
             List<string> GAMEDATA_LIST = new List<string>();
@@ -323,11 +335,29 @@ namespace DLC_Checker
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    CONSOLE_COLOR(ConsoleColor.Yellow, "GameData_20 Directory doesn't exist, this might be ok with a fresh Installation");
-                    //EXIT_PROGRAM();
+                    CONSOLE_COLOR(ConsoleColor.Yellow, "GameData_20 Directory doesn't exist, ok with a fresh Installation");
                 }                
             }
+
+            if (GAME_NAME.Contains("CRE"))
+            {
+                string GAMEDATA_DLC_DIRECTORY = GAME_DIRECTORY + "\\GameData\\dlc";
+
+                try
+                {
+                    GAMEDATA_LIST.AddRange(Directory.GetFiles(@GAMEDATA_DLC_DIRECTORY, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName));
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    CONSOLE_COLOR(ConsoleColor.Red, "DLC Directory doesn't exist!");
+                    EXIT_PROGRAM();
+                }
+            }
             return GAMEDATA_LIST;
+
+
+
+
         }
         		
 		static Tuple<List<string>,List<string>> COMPARE_DLC(IDictionary<string, string> DLC_LIST, List<string> GAMEDATA_LIST)

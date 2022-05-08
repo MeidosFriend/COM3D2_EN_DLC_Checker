@@ -11,8 +11,8 @@
     <StartupObject></StartupObject>
     <AssemblyName>COM3D2_EN_DLC_Checker</AssemblyName>
     <RootNamespace>COM3D2_EN_DLC_Checker</RootNamespace>
-    <Description>Developed on Base of Tankerch's Release</Description>
-    <Version>1.3.0</Version>
+    <Description>Shows installed DLC, helping to identify missing ones</Description>
+    <Version>1.4.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

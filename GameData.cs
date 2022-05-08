@@ -7,7 +7,7 @@ namespace DLC_Checker
 	{
         static readonly System.Version VERSION = typeof(Program).Assembly.GetName().Version;
         public static readonly string GAME_NAME = "COM3D2_EN";
-        public static readonly string GAME_NAME_LONG = "Custom Order Maid D32 (International)";
+        public static readonly string GAME_NAME_LONG = "Custom Order Maid 3D2 (International)";
         public static readonly string INI_FILE = GAME_NAME + "_DLC_Checker.ini";
         public static readonly string DLC_LIST_FILE = "COM_EN_NewListDLC.lst";
         public static readonly string MY_DLC_LIST_FILE = "MY_" + DLC_LIST_FILE;
@@ -89,10 +89,12 @@ namespace DLC_Checker
         {
             return MyURL;
         }
+
         public string GetGAME_NAME()
         {
             return GAME_NAME;
         }
+
         public string GetGAME_NAME_LONG()
         {
             return GAME_NAME_LONG;
