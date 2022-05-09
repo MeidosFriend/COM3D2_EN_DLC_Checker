@@ -1,5 +1,4 @@
-﻿using System;
-//using System.Reflection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +10,6 @@ namespace DLC_Checker
 {
     class Program
     {
-
         // Class Gamedata init, sets the Values for the used Game
         static GameData MyData = new GameData();
         static readonly string GAME_NAME = MyData.GetGAME_NAME();
@@ -22,19 +20,19 @@ namespace DLC_Checker
         static readonly string DLC_LIST_PATH = MyData.GetDLC_LIST_PATH();
         static readonly string GAME_HEADER = MyData.GetGAME_HEADER();
         static readonly string DLC_URL = MyData.GetDLC_URL();
-
-        static readonly string UseCurrentDir = MyData.GetUseCurrentDir().ToUpper();
+        //static readonly string UseCurrentDir = MyData.GetUseCurrentDir().ToUpper();
         static readonly string UpdateListFile = MyData.GetUpdateListFile().ToUpper();
         static readonly string MyDLCListFile = MyData.GetMyDLCListFile().ToUpper();
         static readonly string UseMyURL = MyData.GetUseMyURL().ToUpper();
-
         static readonly string GAME_DIRECTORY = GET_GAME_INSTALLPATH();
 
+	    // Main Program
         static void Main(string[] args)
         {
             // Write Header Lines to Console
             PRINT_HEADER();
 
+	        //Read Game Version from update.lst 
             GetGameVersion();
 
             // update/get DLC Listfile 
@@ -44,8 +42,10 @@ namespace DLC_Checker
 
             // Make Dictionary from DLC-List-File 
             IDictionary<string, string> DLC_LIST = READ_DLC_LIST();
+
             // Read Files in GameData Dir
             List<string> GAMEDATA_LIST = READ_GAMEDATA();
+
             // DLC LIST SORTED
             // Item 1 = INSTALLED_DLC
             // Item 2 = NOT_INSTALLED_DLC
@@ -56,29 +56,42 @@ namespace DLC_Checker
         }
         // End Main
 
+        // PRINT_HEADER
+        static void PRINT_HEADER()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("=======================================================================================================================");
+            Console.WriteLine(GAME_HEADER);
+            Console.WriteLine("=======================================================================================================================");
+            Console.ResetColor();
+        }
+
         static void GetGameVersion()
         {
             string line;
-            //string text = "GameVersion";
-            string text2 = "EditSystem.exe";
-            string text3 = "COM3D2x64.exe";
-            string text4 = "CM3D2x64.exe";
-            string logfile = "\\update.lst";
+            
+	        string text1 = "EditSystem.exe";
+            string text2 = "COM3D2x64.exe";
+            string text3 = "CM3D2x64.exe";
+            string verfile = "\\update.lst";
         
             try
             {
-                StreamReader file = new StreamReader(GAME_DIRECTORY + logfile);
+                StreamReader file = new StreamReader(GAME_DIRECTORY + verfile);
                 while ((line = file.ReadLine()) != null)
                 {
-                    if (line.Contains(text2))
+                    if (line.Contains(text1))
                     {
                         //split string
                         string[] temp_line = line.Split(',');
                         char[] linec = temp_line[1].ToCharArray();
                         string Version = linec[0].ToString();
                         if (linec[1] == '0')
+                        {
                             Version = Version + "." + linec[2].ToString() + ".";
+                        }
                         else
+                        {
                             Version = Version + "." + linec[1].ToString() + linec[2].ToString() + ".";
                             if (linec[3] == '0')
                                 Version = Version + linec[4].ToString();
@@ -87,10 +100,11 @@ namespace DLC_Checker
 
                             CONSOLE_COLOR(ConsoleColor.Cyan, "CR Edit Version V" + Version);
                             break;
+                        }
                     }
                     else
                     {
-                        if (line.Contains(text3) || line.Contains(text4))
+                        if (line.Contains(text2) || line.Contains(text3))
                         {
                             //split string
                             string[] temp_line = line.Split(',');
@@ -114,20 +128,19 @@ namespace DLC_Checker
             }
         }
 
-
-		// Get DLC List File
-		static void GET_DLC_LISTFILE()
-		{
-			// Custom Listfile
+	    // Get DLC List File
+	    static void GET_DLC_LISTFILE()
+	    {
+	        // Custom Listfile
             if (MyDLCListFile == "YES")
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
+          	    Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Custom Listfile: {0}", MY_DLC_LIST_FILE);
-            }
+	        }
             // Standard Listfile
             else
             {
-                // Loading new ListFile from Internet or use Local File
+           	    // Loading new ListFile from Internet or use Local File
                 if (UpdateListFile == "YES")
                 {
                     // HTTP_RESOPOND
@@ -167,74 +180,64 @@ namespace DLC_Checker
                     //Console.WriteLine("Hint: You can enable autoupdate in {0} with: UpdateListFile=YES", INI_FILE);
                 }
                 Console.ResetColor();
-            }
-		}
-
-		// PRINT_HEADER
-		static void PRINT_HEADER()
+           }
+	    }
+	    
+	    // CONNECT_TO_INTERNET
+	    static Tuple<HttpStatusCode, string> CONNECT_TO_INTERNET(string DLC_URL)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("=======================================================================================================================");
-            Console.WriteLine(GAME_HEADER);
-            Console.WriteLine("=======================================================================================================================");
-            Console.ResetColor();
-        }
-
-        // CONNECT_TO_INTERNET
-		static Tuple<HttpStatusCode, string> CONNECT_TO_INTERNET(string DLC_URL)
-        {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(DLC_URL);
+	        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(DLC_URL);
             HttpWebRequest request = httpWebRequest;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-            try
+       	    try
             {
                 using HttpWebResponse response = (HttpWebResponse)request.GetResponse() ;
                 using Stream stream = response.GetResponseStream();
                 using StreamReader reader = new StreamReader(stream);
 
-                return new Tuple<HttpStatusCode, string>(response.StatusCode, reader.ReadToEnd());
-            }
-            catch (System.Net.WebException)
-			{
-                return new Tuple<HttpStatusCode, string>(HttpStatusCode.NotFound, null);
-            }
+		        return new Tuple<HttpStatusCode, string>(response.StatusCode, reader.ReadToEnd());
+	        }
+	        catch (System.Net.WebException)
+	        {
+		        return new Tuple<HttpStatusCode, string>(HttpStatusCode.NotFound, null);
+	        }
+	    }
 
-        }
-
-        // UPDATE_DLC_LIST
-		static void UPDATE_DLC_LIST(string UPDATED_CONTENT)
-        {
+	    // UPDATE_DLC_LIST
+	    static void UPDATE_DLC_LIST(string UPDATED_CONTENT)
+	    {
             using StreamWriter writer = new StreamWriter(DLC_LIST_PATH);
             writer.Write(UPDATED_CONTENT);
-        }
+	    }
 
-        // Dictionary READ_DLC_LIST
-		static IDictionary<string, string> READ_DLC_LIST()
-        {
+	    // Dictionary READ_DLC_LIST
+	    static IDictionary<string, string> READ_DLC_LIST()
+	    {
             List<string> DLC_LIST_UNFORMATED = new List<string>();
-            try
+            
+	        try
             {
                 // Skip 1 = Remove version header
                 DLC_LIST_UNFORMATED = File.ReadAllLines(DLC_LIST_PATH, Encoding.UTF8)
-                    .Skip(1)
-                    .ToList();
-
-            }
-            catch(FileNotFoundException)
+                .Skip(1)
+                .ToList();
+	        }
+            
+	        catch(FileNotFoundException)
             {
-                if (MyDLCListFile == "NO")
-                {
+          	    if (MyDLCListFile == "NO")
+		        {
                     CONSOLE_COLOR(ConsoleColor.Red, DLC_LIST_FILE + " file doesn't exist");
-                }
-                else
+		        }
+		        else
                 {
                     CONSOLE_COLOR(ConsoleColor.Red, MY_DLC_LIST_FILE + " file doesn't exist");
                 }
                 EXIT_PROGRAM();
             }
             
-            // DLC_LIST_FORMAT = [Keys = DLC_Filename, Value = DLC_Name]
+            // DLC_LIST_FORMATED = [Keys = DLC_Filename, Value = DLC_Name]
             IDictionary<string, string> DLC_LIST_FORMATED = new Dictionary<string, string>();
             string sub;
             foreach (string DLC_LIST in DLC_LIST_UNFORMATED)
@@ -244,11 +247,11 @@ namespace DLC_Checker
                 //ignoring empty line
                 if (DLC_LIST != "")
                 {   
-                    // ignoring line if first char is '/' or '*' or ';'
+		            // ignoring line if first char is '/' or '*' or ';'
                     sub = DLC_LIST.Substring(0, 1);
                     if (sub!="/" && sub != "*" && sub != ";")
                     { 
-                        //split string
+                   	    //split string
                         string[] temp_strlist = DLC_LIST.Split(',');
                         // if line has more than 2 substrings (description contains ','), concatenate the right part
                         if (temp_strlist.Length > 2)
@@ -261,62 +264,41 @@ namespace DLC_Checker
                 }
             }
             return DLC_LIST_FORMATED;
-        }
+	    }
 
-        static string GET_GAME_INSTALLPATH()
-        {
+	    static string GET_GAME_INSTALLPATH()
+	    {
             string GAME_DIRECTORY_REGISTRY = (string)Registry.GetValue(GAME_REGISTRY, "InstallPath", "");
-            if (UseCurrentDir == "YES" || GAME_DIRECTORY_REGISTRY == null || !Directory.Exists(GAME_DIRECTORY_REGISTRY))
-            {
-                return Directory.GetCurrentDirectory();
-            }
-            else
-            {       
+	        if (Directory.Exists(Directory.GetCurrentDirectory() + "\\GameData"))
+	        {
+		        return Directory.GetCurrentDirectory();
+	        }
+	        else
+	        {
+    	  	    if (GAME_DIRECTORY_REGISTRY == null || !Directory.Exists(GAME_DIRECTORY_REGISTRY))
+		        {
+		            CONSOLE_COLOR(ConsoleColor.Red, "No valid Game Installation found");
+                    CONSOLE_COLOR(ConsoleColor.Red, "Exit Program. ");
+                    EXIT_PROGRAM();
+                }
                 return GAME_DIRECTORY_REGISTRY;
             }
-        }
-
-            
-        static void SHOW_GAME_INSTALLPATH()
+	    }
+                 
+	    static void SHOW_GAME_INSTALLPATH()
         {
-            string GAME_DIRECTORY_REGISTRY = (string)Registry.GetValue(GAME_REGISTRY, "InstallPath","");
-
-            if (UseCurrentDir == "NO")
-            {
-                if (GAME_DIRECTORY_REGISTRY != null)
-                {
-                    if (!Directory.Exists(GAME_DIRECTORY_REGISTRY))
-                    {
-                        CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory set in registry but doesn't exist. Will using work directory");
-                        CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-                    }
-                    else
-                    {
-                        CONSOLE_COLOR(ConsoleColor.Cyan, "Game Directory: " + GAME_DIRECTORY_REGISTRY);
-                    }
-                }
-                else
-                {
-                    CONSOLE_COLOR(ConsoleColor.Yellow, "Warning : " + GAME_NAME + "installation directory not found in registry. Will using work directory");
-					CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-                }
-            }
-            else
-            {
-                CONSOLE_COLOR(ConsoleColor.Yellow, "Current directory: " + Directory.GetCurrentDirectory());
-            }
+            CONSOLE_COLOR(ConsoleColor.Cyan, "Game Directory: " + GAME_DIRECTORY);
         }
 
         static List<string> READ_GAMEDATA()
-        {
-            string GAMEDATA_DIRECTORY = GAME_DIRECTORY + "\\GameData";
+	    {
+	        string GAMEDATA_DIRECTORY = GAME_DIRECTORY + "\\GameData";
+	        List<string> GAMEDATA_LIST = new List<string>();
 
-            List<string> GAMEDATA_LIST = new List<string>();
-
-            try
-            {
+	        try
+	        {
                 GAMEDATA_LIST.AddRange(Directory.GetFiles(@GAMEDATA_DIRECTORY, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName));
-            }
+	        }
             catch (DirectoryNotFoundException)
             {
                 CONSOLE_COLOR(ConsoleColor.Red, "GameData Directory doesn't exist, ");
@@ -325,11 +307,11 @@ namespace DLC_Checker
                 EXIT_PROGRAM();
             }
 
-            if (GAME_NAME.Contains("COM3D2"))
-            {
-                string GAMEDATA_20_DIRECTORY = GAME_DIRECTORY + "\\GameData_20";
-            
-                try
+	        if (GAME_NAME.Contains("COM3D2"))
+	        {
+           	    string GAMEDATA_20_DIRECTORY = GAME_DIRECTORY + "\\GameData_20";
+
+    		    try
                 {
                     GAMEDATA_LIST.AddRange(Directory.GetFiles(@GAMEDATA_20_DIRECTORY, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName));
                 }
@@ -339,11 +321,11 @@ namespace DLC_Checker
                 }                
             }
 
-            if (GAME_NAME.Contains("CRE"))
+	        if (GAME_NAME.Contains("CRE"))
             {
-                string GAMEDATA_DLC_DIRECTORY = GAME_DIRECTORY + "\\GameData\\dlc";
+          	    string GAMEDATA_DLC_DIRECTORY = GAME_DIRECTORY + "\\GameData\\dlc";
 
-                try
+	    	    try
                 {
                     GAMEDATA_LIST.AddRange(Directory.GetFiles(@GAMEDATA_DLC_DIRECTORY, "*", SearchOption.TopDirectoryOnly).Select(Path.GetFileName));
                 }
@@ -354,72 +336,70 @@ namespace DLC_Checker
                 }
             }
             return GAMEDATA_LIST;
-
-
-
-
-        }
+	    }
         		
-		static Tuple<List<string>,List<string>> COMPARE_DLC(IDictionary<string, string> DLC_LIST, List<string> GAMEDATA_LIST)
+	    static Tuple<List<string>,List<string>> COMPARE_DLC(IDictionary<string, string> DLC_LIST, List<string> GAMEDATA_LIST)
         {
             // DLC LIST = [DLC_FILENAME, DLC_NAME]
             List<string> DLC_FILENAMES = new List<string>(DLC_LIST.Keys);
             List<string> DLC_NAMES= new List<string>(DLC_LIST.Values);
 
-            List<string> INSTALLED_DLC = new List<string>(); 
-            foreach(string INSTALLED_DLC_FILENAMES in DLC_FILENAMES.Intersect(GAMEDATA_LIST).ToList())
+	        List<string> INSTALLED_DLC = new List<string>(); 
+	        foreach(string INSTALLED_DLC_FILENAMES in DLC_FILENAMES.Intersect(GAMEDATA_LIST).ToList())
             {
-                // UNIT_DLC_LIST = [DLC_FILENAME, DLC_NAME]
+           	    // UNIT_DLC_LIST = [DLC_FILENAME, DLC_NAME]
                 foreach (KeyValuePair<string,string> UNIT_DLC_LIST in DLC_LIST)
                 {
                     if (INSTALLED_DLC_FILENAMES == UNIT_DLC_LIST.Key)
                     {
-                        INSTALLED_DLC.Add(UNIT_DLC_LIST.Value);
+                   	    INSTALLED_DLC.Add(UNIT_DLC_LIST.Value);
                         DLC_LIST.Remove(UNIT_DLC_LIST);
                         break;
                     }
                 }
             }
             
-            List<string> NOT_INSTALLED_DLC = DLC_NAMES.Except(INSTALLED_DLC).ToList();
+	        List<string> NOT_INSTALLED_DLC = DLC_NAMES.Except(INSTALLED_DLC).ToList();
             INSTALLED_DLC.Sort();
             NOT_INSTALLED_DLC.Sort();
             return Tuple.Create(INSTALLED_DLC, NOT_INSTALLED_DLC);
-        }
+	    }
 
-        static void PRINT_DLC(List<string> INSTALLED_DLC, List<string> NOT_INSTALLED_DLC)
+	    static void PRINT_DLC(List<string> INSTALLED_DLC, List<string> NOT_INSTALLED_DLC)
         {
             CONSOLE_COLOR(ConsoleColor.Green, "\nAlready Installed:");
             foreach (string DLC in INSTALLED_DLC)
             {
-                Console.WriteLine(DLC);
+           	    Console.WriteLine(DLC);
             }
-
+        
             CONSOLE_COLOR(ConsoleColor.Yellow, "\nNot Installed :");
             foreach (string DLC in NOT_INSTALLED_DLC)
             {
-                Console.WriteLine(DLC);
+           	    Console.WriteLine(DLC);
             }
-        }
+	    }
 
-        static void EXIT_PROGRAM()
-        {
-            Console.WriteLine("\nPress 'Enter' to exit the process...");
+	    static void EXIT_PROGRAM()
+	    {
+	        Console.WriteLine("\nPress 'Enter' to exit the process...");
             while (true)
             {
-                if (Console.ReadKey().Key == ConsoleKey.Enter)
+          	    if (Console.ReadKey().Key == ConsoleKey.Enter)
                 {
-                    System.Environment.Exit(0);
-                }
+		            System.Environment.Exit(0);
+		        }
             }
-        }
+	    }
 
-        // Extension
-        static void CONSOLE_COLOR(ConsoleColor color, string message)
-        {
+	    // Extension
+	    static void CONSOLE_COLOR(ConsoleColor color, string message)
+	    {
             Console.ForegroundColor = color;
             Console.WriteLine(message);
             Console.ResetColor();
         }
-    }
-}
+
+    }//Class Program End
+
+}//Namespace End

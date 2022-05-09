@@ -11,13 +11,13 @@ namespace DLC_Checker
         public static readonly string INI_FILE = GAME_NAME + "_DLC_Checker.ini";
         public static readonly string DLC_LIST_FILE = "COM_EN_NewListDLC.lst";
         public static readonly string MY_DLC_LIST_FILE = "MY_" + DLC_LIST_FILE;
-        public static readonly string GAME_HEADER = "         " + GAME_NAME + "_Checker Version " + VERSION + "     |   Github.com/MeidosFriend/" + GAME_NAME + "_Checker";
+        public static readonly string GAME_HEADER = "         " + GAME_NAME + "_DLC_Checker Version " + VERSION + "     |   Github.com/MeidosFriend/" + GAME_NAME + "_DLC_Checker";
         public static readonly string GAME_REGISTRY = "HKEY_CURRENT_USER\\SOFTWARE\\KISS\\" + "CUSTOM ORDER MAID3D 2";
         
         public static string DLC_URL = "https://raw.githubusercontent.com/MeidosFriend/" + GAME_NAME + "_DLC_Checker/master/" + DLC_LIST_FILE;
         public static string DLC_LIST_PATH = Path.Combine(Directory.GetCurrentDirectory(), DLC_LIST_FILE);
         
-        public static string UseCurrentDir;
+        //public static string UseCurrentDir;
         public static string UpdateListFile;
         public static string MyDLCListFile;
         public static string MyURL;
@@ -26,11 +26,11 @@ namespace DLC_Checker
         public GameData()
 		{
             IniFile MyIni = new IniFile();
-            if (!MyIni.KeyExists("UseCurrentDir", "GameDirectory"))
-            {
-                MyIni.Write("UseCurrentDir", "No", "GameDirectory");
-            }
-            UseCurrentDir = MyIni.Read("UseCurrentDir", "GameDirectory").ToUpper();
+            //if (!MyIni.KeyExists("UseCurrentDir", "GameDirectory"))
+            //{
+                //MyIni.Write("UseCurrentDir", "No", "GameDirectory");
+            //}
+            //UseCurrentDir = MyIni.Read("UseCurrentDir", "GameDirectory").ToUpper();
 
             if (!MyIni.KeyExists("UpdateListFile", "DLCListFile"))
             {
@@ -75,10 +75,10 @@ namespace DLC_Checker
         {
             return MyDLCListFile;
         }
-        public string GetUseCurrentDir()
-        {
-            return UseCurrentDir;
-        }
+        //public string GetUseCurrentDir()
+        //{
+            //return UseCurrentDir;
+        //}
 
         public string GetUseMyURL()
         {
@@ -130,9 +130,6 @@ namespace DLC_Checker
         {
             return DLC_LIST_PATH;
         }
-
-        
-
 
     }
 }
