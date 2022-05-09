@@ -1,4 +1,4 @@
-# COM3D2 English DLC Checker V1.4
+# COM3D2 English DLC Checker V1.5
 
 ![](Screen_1.jpg)
 App that checking which one DLC have been installed and not.
@@ -32,9 +32,6 @@ If no ini-file exists, it will be created
 The ini file supports several runtime-parameter:
 
 ** COM3D2_EN_DLC_Checker.ini ** 
-
-[GameDirectory]
-UseCurrentDir=No
 
 [DLCListFile]
 UpdateListFile=Yes
