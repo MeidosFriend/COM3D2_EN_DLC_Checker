@@ -11,7 +11,7 @@ namespace DLC_Checker
     class Program
     {
         // Class Gamedata init, sets the Values for the used Game
-        static GameData MyData = new GameData();
+        static readonly GameData MyData = new GameData();
         static readonly string GAME_NAME = MyData.GetGAME_NAME();
         static readonly string GAME_NAME_LONG = MyData.GetGAME_NAME_LONG();
         static readonly string GAME_REGISTRY = MyData.GetGAME_REGISTRY();
@@ -27,7 +27,7 @@ namespace DLC_Checker
         static readonly string GAME_DIRECTORY = GET_GAME_INSTALLPATH();
 
 	    // Main Program
-        static void Main(string[] args)
+        static void Main()
         {
             // Write Header Lines to Console
             PRINT_HEADER();
