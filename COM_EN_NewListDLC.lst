@@ -1,4 +1,4 @@
-20221230
+20230121
 parts_shop022.arc,[COM3D2EN MISC][Nuntaku Bonus][Costume][Nuntaku-Tan Set]
 csv_nmfeng.arc,[COM3D2EN S-Court][Dance - Night Magic Fire - Included in Base Game]
 csv_vp001.arc,[COM3D2EN S-Court][Visual Pack]
@@ -765,7 +765,12 @@ script_adultplus_black.arc,[COM3D2EN Shop][Yotogi Class][Adult Enhancement Pack 
 system_karaoke011add.arc,[COM3D2EN Shop][Karaoke][Karaoke Pack Party SP]["DAN! GAN! Party!!" for Buyers of Version 11]
 script_eventplus_silent.arc,[COM3D2EN Shop][Yotogi & Romantic Cohabitation Pack][Bookworm][Yotogi & Events]
 parts_dlc469.arc,[COM3D2EN Shop][Yotogi & Romantic Cohabitation Pack][Bookworm][Noble Gothic Set]
-
 script_cres2.arc,[COM3D2EN S-Court][Optional][X0 DLC for COM3D2 from KCES & 2.5 package - needs Version 2.xxx]
 script_omytgc017_add.arc,[COM3D2EN Shop][Yotogi Class Vol.09][Crisis Maid][Bookworm,Sweet Little Devil,Ladylike,Secretary]
 
+parts_cas111.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set][Costume][Starry Hoodie Set]
+parts_cas112.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set][Costume][Gothic Nun Set]
+parts_cas113.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set][Costume][Sweet Girly Set]
+parts_cas114.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set][Hair][Mini Double Updo Hair Set]
+parts_cas115.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set][Hair][Hard Curl Hair Set]
+parts_cas116.arc,[COM3D2EN Shop][Sweet Nun Hoodie Set Set][Hair][Stray Hair Set]
